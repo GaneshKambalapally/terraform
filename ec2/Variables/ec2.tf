@@ -1,7 +1,7 @@
 resource "aws_security_group" "ssh-all-terraform" {
 
   description = "allow ssh"
-  name        = "ssh"
+  name        = var.sgname
 
   #egress is same as outbound rule in AWS, which allows outgoing traffic
   egress {
@@ -21,15 +21,15 @@ resource "aws_security_group" "ssh-all-terraform" {
   }
 
   tags = {
-    Name = "allow_ssh"
+    Name = var.tags
 
   }
 
 }
 
 resource "aws_instance" "terraform" {
-  ami                    = "ami-09c813fb71547fc4f"
-  instance_type          = "t3.micro"
+  ami                    = var.amiid
+  instance_type          = var.instancetype
   vpc_security_group_ids = [aws_security_group.ssh-all-terraform.id]
   tags = {
     Name = "terraform"
